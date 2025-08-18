@@ -6,6 +6,7 @@ import Home from "./pages/Home"
 import Services from "./pages/Services"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
+import ScrollToTop from "@/components/ScrollToTop"
 
 function AnimatedRoutes() {
     const location = useLocation()
@@ -51,6 +52,7 @@ function PageWrapper({ children }) {
 function App() {
     return (
         <Router>
+            <ScrollToTop />
             <div className="flex flex-col min-h-screen bg-brand-bg">
                 <Navbar />
                 <main className="flex-grow">

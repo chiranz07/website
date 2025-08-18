@@ -25,15 +25,19 @@ export default function Navbar() {
         return currentLink ? currentLink.name : "Home"
     }
 
+    const isHome = location.pathname === "/"
+
     return (
         <>
-            <nav className="fixed top-4 left-1/2 -translate-x-1/2
-    w-[90%] max-w-6xl flex items-center justify-between
-    px-8 py-3 rounded-full
-    bg-gradient-to-r from-white/20 via-white/10 to-white/20
-    backdrop-blur-xl border border-white/20
-    shadow-lg shadow-black/10 z-50">
-
+            <nav
+                className={`fixed top-4 left-1/2 -translate-x-1/2
+                    w-[90%] max-w-6xl flex items-center justify-between
+                    px-8 py-3 rounded-full
+                    backdrop-blur-xl border border-white/20
+                    shadow-lg shadow-black/10 z-50
+                    ${isHome ? "bg-white" : "bg-gradient-to-r from-white/20 via-white/10 to-white/20"}
+                `}
+            >
                 {/* Logo */}
                 <NavLink to="/" className="flex items-center">
                     <img
