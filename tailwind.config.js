@@ -12,8 +12,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui"],
-        heading: ["Poppins", "ui-sans-serif", "system-ui"],
+        sans: ['Telegraf', 'sans-serif'],
+        heading: ['Telegraf', 'sans-serif'],
       },
     },
   },

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X } from "lucide-react"
 import logo from "@/assets/logo.png"
@@ -13,10 +13,10 @@ const links = [
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
+    const location = useLocation()
 
-    // Get current page name based on current path
     const getCurrentPageName = () => {
-        const currentPath = window.location.pathname
+        const currentPath = location.pathname
         const currentLink = links.find(link => {
             if (link.path === "/" && currentPath === "/") return true
             if (link.path !== "/" && currentPath.startsWith(link.path)) return true
@@ -27,7 +27,13 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="bg-[#f7f7f7]/80 backdrop-blur-md text-brand-accent px-4 md:px-8 py-1 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+            <nav className="fixed top-4 left-1/2 -translate-x-1/2
+    w-[90%] max-w-6xl flex items-center justify-between
+    px-8 py-3 rounded-full
+    bg-gradient-to-r from-white/20 via-white/10 to-white/20
+    backdrop-blur-xl border border-white/20
+    shadow-lg shadow-black/10 z-50">
+
                 {/* Logo */}
                 <NavLink to="/" className="flex items-center">
                     <img
@@ -45,7 +51,7 @@ export default function Navbar() {
                                 key={link.path}
                                 to={link.path}
                                 end
-                                className="relative pb-1 transition-colors duration-200 hover:text-brand-accentDark"
+                                className="relative pb-1 text-black transition-colors duration-200 hover:text-brand-accentDark"
                             >
                                 {({ isActive }) => (
                                     <>
@@ -64,15 +70,14 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                {/* Mobile controls - page name and hamburger grouped together */}
+                {/* Mobile controls */}
                 <div className="md:hidden flex items-center gap-3">
-                    <span className="text-sm font-medium text-brand-accent/60">
+                    <span className="text-sm font-medium text-black">
                         {getCurrentPageName()}
                     </span>
-                    {/* Vertical separator line */}
                     <div className="w-px h-5 bg-brand-accent/20"></div>
                     <button
-                        className="text-brand-accent z-[100000]"
+                        className="text-black z-[100000]"
                         onClick={() => setIsOpen(!isOpen)}
                     >
                         {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -80,11 +85,11 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/* Mobile Menu Portal */}
+            {/* Mobile Menu */}
             <AnimatePresence>
                 {isOpen && (
                     <div className="md:hidden">
-                        {/* Dark Overlay with subtle animation */}
+                        {/* Dark Overlay */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -104,7 +109,7 @@ export default function Navbar() {
                             onClick={() => setIsOpen(false)}
                         />
 
-                        {/* Elegant White Drawer */}
+                        {/* White Drawer */}
                         <motion.div
                             initial={{ x: "100%", opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
@@ -123,7 +128,6 @@ export default function Navbar() {
                                 borderLeft: "1px solid rgba(0, 0, 0, 0.05)"
                             }}
                         >
-                            {/* Subtle top accent line */}
                             <div
                                 className="absolute top-0 left-0 right-0 h-[1px]"
                                 style={{
@@ -133,17 +137,16 @@ export default function Navbar() {
 
                             {/* Drawer Content */}
                             <div className="flex flex-col h-full p-8" style={{ backgroundColor: "#ffffff" }}>
-                                {/* Close Button with hover effect */}
                                 <motion.button
                                     whileHover={{ scale: 1.1, rotate: 90 }}
                                     whileTap={{ scale: 0.9 }}
-                                    className="self-end mb-12 text-brand-accent/70 hover:text-brand-accent transition-all duration-300 p-2 rounded-full hover:bg-gray-50"
+                                    className="self-end mb-12 text-black hover:text-brand-accent transition-all duration-300 p-2 rounded-full hover:bg-gray-50"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     <X size={24} />
                                 </motion.button>
 
-                                {/* Navigation Links with staggered animation */}
+                                {/* Navigation Links */}
                                 <nav className="flex flex-col space-y-2">
                                     {links.map((link, index) => (
                                         <motion.div
@@ -160,7 +163,7 @@ export default function Navbar() {
                                                 to={link.path}
                                                 end
                                                 onClick={() => setIsOpen(false)}
-                                                className="relative block text-xl font-medium text-brand-accent/80 hover:text-brand-accent transition-all duration-300 py-4 px-4 rounded-lg hover:bg-gray-50/80 group"
+                                                className="relative block text-xl font-medium text-black hover:text-brand-accent transition-all duration-300 py-4 px-4 rounded-lg hover:bg-gray-50/80 group"
                                             >
                                                 {({ isActive }) => (
                                                     <>
@@ -172,7 +175,6 @@ export default function Navbar() {
                                                             {link.name}
                                                         </motion.span>
 
-                                                        {/* Active indicator */}
                                                         {isActive && (
                                                             <motion.div
                                                                 layoutId="mobile-active-bg"
@@ -181,7 +183,6 @@ export default function Navbar() {
                                                             />
                                                         )}
 
-                                                        {/* Hover effect */}
                                                         <motion.div
                                                             className="absolute left-0 top-1/2 w-1 h-0 bg-brand-accent rounded-full"
                                                             whileHover={{ height: "60%" }}
@@ -195,10 +196,8 @@ export default function Navbar() {
                                     ))}
                                 </nav>
 
-                                {/* Elegant bottom with logo */}
+                                {/* Drawer Footer with Logo */}
                                 <div className="flex-grow" />
-
-                                {/* Logo footer */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
